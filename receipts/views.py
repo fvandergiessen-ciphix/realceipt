@@ -17,17 +17,34 @@ def uploadreceipts(request):
 def viewreceipts(request):
     return render(request, 'view_receipts.html')
 
-@api_view()
+@api_view(['GET','POST'])
 def receiptitems_list(request):
-    queryset = ReceiptItem.objects.all()
-    serializer = ReceiptItemSerializer(queryset, many=True)
-    return Response(serializer.data)
+    if request.method == "GET":
+        queryset = ReceiptItem.objects.all()
+        serializer = ReceiptItemSerializer(queryset, many=True, context={'request': request})
+        return Response(serializer.data)
+    elif request.method == "POST":
+        serializer = ReceiptItemSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status = status.HTTP_201_CREATED)
 
-@api_view()
+@api_view(['GET', 'PUT', 'PATCH'])
 def receiptitems_detail(request, id):
     receipt = get_object_or_404(ReceiptItem, pk=id)
-    serializer = ReceiptItemSerializer(receipt)
-    return Response(serializer.data)
+    if request.method == "GET":
+        serializer = ReceiptItemSerializer(receipt)
+        return Response(serializer.data)
+    elif request.method == "PUT":
+        serializer = ReceiptItemSerializer(receipt, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+@api_view
+def receipt_detail(request, pk):
+    return Response('ok')
+
 
 #class ReceiptFileViewSet(viewsets.ModelViewSet):
 #    serializer_class = ReceiptFileSerializer
