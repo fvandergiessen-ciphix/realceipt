@@ -9,6 +9,9 @@ class ReceiptItem(models.Model):
     product_name = models.CharField(max_length=255)
     product_price = models.DecimalField(max_digits=6, decimal_places=2)
 
+    def __str__(self) -> str:
+        return self.product_name
+
 class ReceiptFile(models.Model):
     receipt = models.ForeignKey(Receipt, on_delete=models.CASCADE)
     file = models.FileField(upload_to='receipts/files')

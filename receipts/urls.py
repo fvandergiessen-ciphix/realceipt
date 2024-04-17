@@ -1,9 +1,13 @@
 from django.urls import path
+from django.urls.conf import include
+from rest_framework_nested import routers
 from . import views
 
-urlpatterns = [
-    path('homepage/',views.hello),
-    path('receiptitems/',views.receiptitems_list),
-    path('receiptitems/<int:id>/',views.receiptitems_detail),
-    path('receiptdetails/<int:pk>/',views.receipt_detail, name='receipt_detail'),
-]
+router = routers.DefaultRouter()
+router.register('receipts', views.ReceiptViewSet)
+
+receipt_router = routers.NestedDefaultRouter(router, 'receipts', lookup='receipts')
+receipt_router.register('receipts', views.ReceiptViewSet, basename='receipts')
+receipt_router.register('files', views.ReceiptFileViewSet, basename='receipts-files')
+
+urlpatterns = router.urls + receipt_router.urls
