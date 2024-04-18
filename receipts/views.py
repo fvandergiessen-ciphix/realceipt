@@ -1,16 +1,16 @@
 from django.shortcuts import render
 from django.db.models.aggregates import Count
 from django.shortcuts import get_object_or_404
-from rest_framework import status,viewsets,mixins
-from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+from rest_framework import status,viewsets
+from rest_framework.mixins import CreateModelMixin
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet, GenericViewSet
 
 from .models import Receipt,ReceiptItem,Employee,ReceiptFile
-from .serializers import ReceiptSerializer,ReceiptFileSerializer,ReceiptItemSerializer
+from .serializers import ReceiptSerializer,ReceiptFileSerializer,ReceiptItemSerializer, AddReceiptSerializer
 
 def hello(request):
     return render(request, 'hello.html')
 
-#Viewset
 class ReceiptItemViewSet(ModelViewSet):
     queryset = ReceiptItem.objects.all()
     serializer_class = ReceiptItemSerializer
@@ -18,6 +18,7 @@ class ReceiptItemViewSet(ModelViewSet):
     def get_serializer_context(self):
         return {'request': self.request}
     
+
 class ReceiptFileViewSet(viewsets.ModelViewSet):
     serializer_class = ReceiptFileSerializer
 
@@ -27,14 +28,22 @@ class ReceiptFileViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return ReceiptFile.objects.filter(receipt_id = self.kwargs['receipts_pk'])
     
-class ReceiptViewSet(ReadOnlyModelViewSet):
+#view that 
+class ReceiptViewSet(CreateModelMixin, GenericViewSet):
     queryset = Receipt.objects.all()
-    serializer_class = ReceiptSerializer
+    #serializer_class = ReceiptSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return AddReceiptSerializer
+        return ReceiptSerializer
     
     def get_serializer_context(self):
-        return {'request': self.request}
+        return {'receipt_id': self.kwargs['receipts_pk']}
+
     
-class NewReceiptViewSet(ModelViewSet):
+# view that
+class NewReceiptViewSet(ReadOnlyModelViewSet):
     queryset = Receipt.objects.all()
     serializer_class = ReceiptSerializer
     
