@@ -11,13 +11,6 @@ class ReceiptFileSerializer(serializers.ModelSerializer):
         model = ReceiptFile
         fields = ['id', 'file']
 
-class ReceiptSerializer(serializers.ModelSerializer):
-    file = ReceiptFileSerializer(many=True, read_only = True)
-
-    class Meta:
-        model = Receipt
-        fields = ['id', 'receipt_description','uploaded_at', 'file']
-
 class ReceiptItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReceiptItem
@@ -28,3 +21,10 @@ class ReceiptItemSerializer(serializers.ModelSerializer):
 #        view_name = 'receipt_detail'
 #    )
 
+class ReceiptSerializer(serializers.ModelSerializer):
+    files = ReceiptFileSerializer(many=True, read_only = True)
+    items = ReceiptItemSerializer(many=True, read_only = True)
+
+    class Meta:
+        model = Receipt
+        fields = ['id', 'receipt_description','uploaded_at', 'files','items'] #file werkt niet for some reason
