@@ -22,23 +22,19 @@ class ReceiptItemSerializer(serializers.ModelSerializer):
 #   )
 
 class AddReceiptSerializer(serializers.ModelSerializer):
-    files = serializers.FileField()
-
+    
+    
     def save(self, **kwargs):
-        receipt_id = self.context['receipt_id']
-        files = self.validated_data['files']
         receipt_description = self.validated_data['receipt_description']
+        #files = self.validated_data['files']
 
-        try:
-            receipt = Receipt.objects.get(receipt_id = receipt_id)
-            receipt.receipt_description += receipt_description
-            receipt.save()
-        except Receipt.DoesNotExist:
-            Receipt.objects.create(receipt_id = receipt_id, **self.validated_data)
+        self.instance = Receipt.objects.create(**self.validated_data)
 
+        return self.instance
+    
     class Meta:
         model = Receipt
-        fields = ['id', 'receipt_description','uploaded_at', 'files']
+        fields = ['id', 'receipt_description','uploaded_at']
 
 class ReceiptSerializer(serializers.ModelSerializer):
     files = ReceiptFileSerializer(many=True, read_only = True)
@@ -46,4 +42,4 @@ class ReceiptSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Receipt
-        fields = ['id', 'receipt_description','uploaded_at', 'files','items'] #file werkt niet for some reason
+        fields = ['id', 'receipt_description','uploaded_at', 'files','items'] 

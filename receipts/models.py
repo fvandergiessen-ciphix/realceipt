@@ -1,8 +1,9 @@
 from django.db import models
-
+from uuid import uuid4
 
 
 class Receipt(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4)
     receipt_description = models.CharField(max_length=255)
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
@@ -20,11 +21,4 @@ class ReceiptItem(models.Model):
 class ReceiptFile(models.Model):
     receipt = models.ForeignKey(Receipt, on_delete=models.CASCADE, related_name='files')
     file = models.FileField(upload_to='receipts/files')
-
-class Employee(models.Model):
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
-    email = models.EmailField(unique=True)
-
-
 

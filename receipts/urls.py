@@ -5,6 +5,7 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register('receipts', views.ReceiptViewSet)
+router.register('newreceipt', views.NewReceiptViewSet, basename='new-receipt')
 
 receipt_router = routers.NestedDefaultRouter(router, 'receipts', lookup='receipts')
 

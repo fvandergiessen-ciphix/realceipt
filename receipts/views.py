@@ -5,7 +5,7 @@ from rest_framework import status,viewsets
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet, GenericViewSet
 
-from .models import Receipt,ReceiptItem,Employee,ReceiptFile
+from .models import Receipt,ReceiptItem,ReceiptFile
 from .serializers import ReceiptSerializer,ReceiptFileSerializer,ReceiptItemSerializer, AddReceiptSerializer
 
 def hello(request):
@@ -29,7 +29,7 @@ class ReceiptFileViewSet(viewsets.ModelViewSet):
         return ReceiptFile.objects.filter(receipt_id = self.kwargs['receipts_pk'])
     
 #view that 
-class ReceiptViewSet(CreateModelMixin, GenericViewSet):
+class NewReceiptViewSet(CreateModelMixin, GenericViewSet): #VERANDEREN NAAR NewReceiptViewSet
     queryset = Receipt.objects.all()
     #serializer_class = ReceiptSerializer
 
@@ -40,11 +40,14 @@ class ReceiptViewSet(CreateModelMixin, GenericViewSet):
     
     def get_serializer_context(self):
         return {'receipt_id': self.kwargs['receipts_pk']}
+    
+    def get_serializer_context(self):
+        return {'request': self.request}
 
     
 # view that
-class NewReceiptViewSet(ReadOnlyModelViewSet):
-    queryset = Receipt.objects.all()
+class ReceiptViewSet(ReadOnlyModelViewSet): #VERANDEREN NAAR ReceiptViewSet
+    queryset = Receipt.objects.all() #prefetch_related('files')?
     serializer_class = ReceiptSerializer
     
     def get_serializer_context(self):
