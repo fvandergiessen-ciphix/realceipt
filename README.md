@@ -1,4 +1,4 @@
-# RealCeipt
+# Realceipt
 
 ## About the project
 
