@@ -77,9 +77,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'receipts',
-        'HOST': 'localhost',
-        'USER': 'root',
-        'PASSWORD': '12345'
+        'HOST': 'mysql-db-dev-1.mysql.database.azure.com',
+        'USER': 'admin1',
+        'PASSWORD': 'H%c-pUB)pMr@6p%',
     }
 }
 
