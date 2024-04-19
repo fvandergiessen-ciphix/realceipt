@@ -15,7 +15,7 @@ Download the project and open it in VS Code. Open the terminal and run the follo
 
 `python manage.py runserver`
 
-Click on the link that is provided in the output. 
+Click on the link that is provided in the output. Add '/realceipt/homepage/' to the URL path to go to the Realceipt homepage. 
 
 ## URL paths
 Follow the URL paths below to reach to project pages. If necessary, change the port path to the port provided in the previous step.

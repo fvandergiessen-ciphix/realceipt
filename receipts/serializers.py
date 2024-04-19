@@ -13,10 +13,8 @@ class AddReceiptSerializer(serializers.ModelSerializer):
     def save(self, **kwargs):
         receipt_description = self.validated_data['receipt_description']
         file = self.validated_data['file']
-        #files = self.validated_data.pop('files', None)
         
         self.instance = Receipt.objects.create(**self.validated_data)
-        #self.instance.files.set(self.validated_data[files])
         return self.instance
     
     def set_value(self, dictionary, keys, value):
