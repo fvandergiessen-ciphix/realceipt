@@ -11,7 +11,7 @@ This project uses the app using Django REST Framework to create a web app where 
 
 ## Opening the app
 
-
+The app is launched using an Azure App service. The homepage of the web app can be accessed via: https://app-ciphix-test-temp-deployment-beta-1.azurewebsites.net/realceipt/homepage/
 
 ## Start the project locally
 
