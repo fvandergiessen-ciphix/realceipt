@@ -22,7 +22,6 @@ class ReceiptItemViewSet(ReadOnlyModelViewSet):
 
 class NewReceiptViewSet(CreateModelMixin, GenericViewSet):
     queryset = Receipt.objects.all()
-    #serializer_class = ReceiptSerializer
 
     def get_serializer_class(self):
         if self.request.method == 'POST':

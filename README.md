@@ -18,17 +18,16 @@ Download the project and open it in VS Code. Open the terminal and run the follo
 Click on the link that is provided in the output. 
 
 ## URL paths
-Follow the url paths* below to reach to project pages:
+Follow the URL paths below to reach to project pages. If necessary, change the port path to the port provided in the previous step.
 
-| Page | URL |
+| Page | URL path |
 | -------- | -------- |
 | Homepage   | http://127.0.0.1:8000/realceipt/homepage/   |
 | Uploading a receipt   | http://127.0.0.1:8000/realceipt/newreceipt/   |
 | Viewing all receipts   | http://127.0.0.1:8000/realceipt/receipts/   |
-| Viewing a specific receipt**   | http://127.0.0.1:8000/realceipt/receipts/<receipt_id>/   |
-| Viewing a specific receipt item**   | http://127.0.0.1:8000/realceipt/receipts/<receipt_id>/item/<item_id>/   |
+| Viewing a specific receipt*   | http://127.0.0.1:8000/realceipt/receipts/receipt_id/    |
+| Viewing a specific receipt item*   | http://127.0.0.1:8000/realceipt/receipts/receipt_id/item/item_id/   |
 
-*if necessary, change the port path to the port provided in the previous step.
-** replace <receipt_id> with the id of the receipt and <item_id> with the id of the item
+*Replace <receipt_id> with the id of the receipt and <item_id> with the id of the item
 You can find the added receipt file in the link provided in the receipt details. 
 

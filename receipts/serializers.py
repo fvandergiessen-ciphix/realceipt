@@ -7,17 +7,8 @@ class ReceiptItemSerializer(serializers.ModelSerializer):
         model = ReceiptItem
         fields = ['id', 'product_name', 'product_price', 'receipt']
 
-#    receipt = serializers.HyperlinkedRelatedField(
-#        queryset = Receipt.objects.all(),
-#        view_name = 'receipt_detail'
-#   )
 
 class AddReceiptSerializer(serializers.ModelSerializer):
-    
-    #def create(self, **kwargs):
-    #    self.instance = Receipt.objects.create(**self.validated_data)
-    #    self.instance.files.set(self.validated_data['files'])
-    #    return self.instance
 
     def save(self, **kwargs):
         receipt_description = self.validated_data['receipt_description']
@@ -34,6 +25,7 @@ class AddReceiptSerializer(serializers.ModelSerializer):
     class Meta:
         model = Receipt
         fields = ['id', 'receipt_description','uploaded_at', 'file']
+
 
 class ReceiptSerializer(serializers.ModelSerializer):
     items = ReceiptItemSerializer(many=True, read_only = True)
