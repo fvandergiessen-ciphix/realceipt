@@ -1,15 +1,6 @@
 from rest_framework import serializers
-from receipts.models import ReceiptFile, Receipt,ReceiptItem
+from receipts.models import  Receipt,ReceiptItem
 from django.shortcuts import render
-
-class ReceiptFileSerializer(serializers.ModelSerializer):
-    def create(self, validated_data):
-        receipt_id = self.context['receipt_id']
-        return ReceiptFile.objects.create(receipt_id = receipt_id, **validated_data)
-
-    class Meta:
-        model = ReceiptFile
-        fields = ['id', 'file']
 
 class ReceiptItemSerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,23 +14,30 @@ class ReceiptItemSerializer(serializers.ModelSerializer):
 
 class AddReceiptSerializer(serializers.ModelSerializer):
     
-    
+    #def create(self, **kwargs):
+    #    self.instance = Receipt.objects.create(**self.validated_data)
+    #    self.instance.files.set(self.validated_data['files'])
+    #    return self.instance
+
     def save(self, **kwargs):
         receipt_description = self.validated_data['receipt_description']
-        #files = self.validated_data['files']
-
+        file = self.validated_data['file']
+        #files = self.validated_data.pop('files', None)
+        
         self.instance = Receipt.objects.create(**self.validated_data)
-
+        #self.instance.files.set(self.validated_data[files])
         return self.instance
+    
+    def set_value(self, dictionary, keys, value):
+        return super().set_value(dictionary, keys, value)
     
     class Meta:
         model = Receipt
-        fields = ['id', 'receipt_description','uploaded_at']
+        fields = ['id', 'receipt_description','uploaded_at', 'file']
 
 class ReceiptSerializer(serializers.ModelSerializer):
-    files = ReceiptFileSerializer(many=True, read_only = True)
     items = ReceiptItemSerializer(many=True, read_only = True)
 
     class Meta:
         model = Receipt
-        fields = ['id', 'receipt_description','uploaded_at', 'files','items'] 
+        fields = ['id', 'receipt_description','uploaded_at','file','items'] 
