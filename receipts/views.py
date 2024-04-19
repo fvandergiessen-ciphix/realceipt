@@ -11,22 +11,13 @@ from .serializers import ReceiptSerializer,ReceiptItemSerializer, AddReceiptSeri
 def hello(request):
     return render(request, 'hello.html')
 
-class ReceiptItemViewSet(ModelViewSet):
+
+class ReceiptItemViewSet(ReadOnlyModelViewSet):
     queryset = ReceiptItem.objects.all()
     serializer_class = ReceiptItemSerializer
     
     def get_serializer_context(self):
         return {'request': self.request}
-    
-
-#class ReceiptFileViewSet(viewsets.ModelViewSet):
-#    serializer_class = ReceiptFileSerializer
-#
-#    def get_serializer_context(self):
-#        return {'receipt_id': self.kwargs['receipts_pk']}
-#    
-#    def get_queryset(self):
-#        return ReceiptFile.objects.filter(receipt_id = self.kwargs['receipts_pk'])
     
 
 class NewReceiptViewSet(CreateModelMixin, GenericViewSet):
@@ -36,7 +27,7 @@ class NewReceiptViewSet(CreateModelMixin, GenericViewSet):
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return AddReceiptSerializer
-        return "Hello"
+        return ReceiptSerializer
     
     def get_serializer_context(self):
         return {'receipt_id': self.kwargs['receipts_pk']}
@@ -46,21 +37,9 @@ class NewReceiptViewSet(CreateModelMixin, GenericViewSet):
 
 
 class ReceiptViewSet(ReadOnlyModelViewSet): 
-    queryset = Receipt.objects.all() #prefetch_related('files')?
+    queryset = Receipt.objects.all() 
     serializer_class = ReceiptSerializer
     
     def get_serializer_context(self):
         return {'request': self.request}
 
-#class ReceiptItemDetail(RetrieveUpdateDestroyAPIView):
-#    lookup_field = 'id'
-
-#@api_view
-#def receipt_detail(request, pk):
-#    return Response('ok')
-
-#class ReceiptList(ListCreateAPIView):
-#    queryset = Receipt.objects.annotate(
-#        receipt_count = Count('receiptitem')).all()
-#    serializer_class = ReceiptSerializer
-    
