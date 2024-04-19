@@ -2,7 +2,7 @@
 
 ## About the project
 
-This project uses the app using Django REST Framework to create a web app where receipts can be uploaded to and retrieved from an SQL database. The user can upload receipts of any file type.
+This project uses the Django REST Framework to create a web app where receipts can be uploaded to and retrieved from an SQL database. The user can upload receipts of any file type.
 
 ## Requirements
 
